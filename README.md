@@ -1,67 +1,96 @@
 # 天文光变曲线数据分析仓库
 
-## 项目简介
-
-本仓库用于天文光变曲线数据的处理、分析和可视化。主要功能包括FITS文件读取、数据处理、周期计算、光变曲线绘制等。
+本仓库用于天文光变曲线数据的处理、分析和可视化，特别是针对系外行星过境数据的研究。
 
 ## 项目结构
 
 ```
-├── data/           # 数据文件目录
-│   └── HATP7b/     # HATP7b行星相关数据
-├── code/           # 代码文件目录
-│   ├── data_processing.py           # 数据处理模块
-│   ├── data_processing_sigle.py     # 单文件数据处理模块
-│   ├── lightcurve_period.py         # 周期计算模块
-│   ├── light_curve_draw_sigle.py    # 单文件光变曲线绘制
-│   ├── lightcurve_period_draw.py    # 周期计算结果绘制
-│   └── ...                          # 其他辅助脚本
-├── LICENSE         # MIT开源协议
-└── README.md       # 项目说明文档
+lightcurves_analysis/
+├── code/                    # 代码目录
+│   ├── data_processing.py   # 多文件数据处理模块
+│   ├── data_processing_sigle.py # 单文件数据处理模块
+│   ├── lightcurve_period.py # 周期计算模块（多轮迭代搜索算法）
+│   ├── lightcurve_period_draw.py # 光变曲线相位折叠绘制工具
+│   ├── arror-period_draw.py # 带误差分析的光变曲线相位折叠绘制工具
+│   └── example_usage.py     # 使用示例脚本
+├── data/                    # 数据目录
+│   └── HATP7b/              # HATP7b行星数据
+│       └── README.md        # 数据说明文档
+├── README.md                # 项目说明文档（当前文件）
+├── LICENSE                  # MIT许可证
+└── requirements.txt         # 项目依赖
 ```
 
 ## 功能模块
 
-### 1. 数据处理
-- `data_processing.py`: 多文件数据处理主模块
-- `data_processing_sigle.py`: 单文件数据处理模块，支持读取指定的FITS文件
+### 1. 数据处理模块
+- `data_processing.py`: 处理多个FITS文件，包括读取数据、移除大间隙、降噪和通量校正
+- `data_processing_sigle.py`: 处理单个FITS文件的专用模块，提供更灵活的文件路径输入
 
-### 2. 周期分析
-- `lightcurve_period.py`: 实现多轮迭代搜索算法，计算光变曲线的最佳周期
+### 2. 周期分析模块
+- `lightcurve_period.py`: 实现多轮迭代搜索算法的周期计算，通过动态调整搜索范围和精度找到最佳周期
 
-### 3. 可视化
-- `light_curve_draw_sigle.py`: 单文件光变曲线绘制
-- `lightcurve_period_draw.py`: 周期分析结果可视化
+### 3. 可视化模块
+- `lightcurve_period_draw.py`: 绘制相位折叠后的光变曲线图，展示行星过境特征
+- `arror-period_draw.py`: 增强版绘图工具，添加误差条和统计信息，提供更详细的数据分析视图
+- `example_usage.py`: 完整分析流程示例，从数据读取到周期计算再到可视化
 
 ## 依赖项
 
 - Python 3.7+
 - NumPy
-- Astropy (用于FITS文件处理)
-- Matplotlib (用于数据可视化)
+- Astropy
+- Matplotlib
+- SciPy
 
 ## 使用方法
 
-### 基本数据处理
-```python
-from code.data_processing_sigle import get_sorted_data
+### 数据处理
 
-# 读取单个FITS文件
-time, flux = get_sorted_data(file_path='path/to/your/file.fits')
+```python
+# 使用多文件数据处理
+from data_processing import get_sorted_data
+
+time, flux = get_sorted_data()
+```
+
+```python
+# 使用单文件数据处理
+from data_processing_sigle import process_single_file
+
+time, flux = process_single_file("path/to/your/fits/file.fits")
 ```
 
 ### 周期计算
-```python
-from code.lightcurve_period import period_culculator
 
-# 计算最佳周期
-optimal_period = period_culculator(time, flux)
+```python
+from lightcurve_period import period_culculator
+
+# 计算最佳周期（可自定义最大迭代次数和滑动窗口大小）
+period = period_culculator(max_iterations=10, window_size=5)
+print(f"最佳周期: {period} 天")
 ```
 
-## 作者
+### 数据可视化
 
-[您的姓名]
+```python
+# 基本相位折叠图
+# 直接运行 lightcurve_period_draw.py
+
+# 带误差分析的相位折叠图
+# 直接运行 arror-period_draw.py
+```
+
+### 完整工作流示例
+
+请参考 `example_usage.py` 文件，它展示了从数据读取、处理、周期计算到可视化的完整流程。
+
+## 数据说明
+
+HATP7b 是一个热木星系外行星，围绕着一颗位于天鹅座的恒星运行。本仓库包含的观测数据来自NASA的开普勒太空望远镜。
+
+详细的数据说明请查看 `data/HATP7b/README.md` 文件。
 
 ## 许可证
 
-本项目采用MIT许可证 - 详情请见LICENSE文件
+本项目采用 MIT 许可证 - 详情请查看 LICENSE 文件
