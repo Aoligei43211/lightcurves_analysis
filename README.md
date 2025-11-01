@@ -21,18 +21,41 @@
 
 ```
 astronomy/
-├── codes/                 # 源代码目录
-│   ├── config_manager.py  # 配置管理模块
-│   ├── hdf5_manager.py    # HDF5数据管理
-│   ├── lightcurves_filtering.py  # 光变曲线降噪
-│   ├── arror-period_draw.py      # 周期图绘制
-│   └── ...
-├── config/                # 配置文件目录
-│   └── app_config.json    # 应用配置
-├── data/                  # 数据文件目录
-│   ├── HATP7b/           # HATP7b目标数据
-│   └── hatp7b_data.h5    # HDF5数据文件
-└── README.md             # 项目说明
+├── .gitignore            # Git忽略配置文件
+├── .venv/                # Python虚拟环境
+├── README.md             # 项目说明文档
+├── requirements.txt      # Python依赖配置
+├── codes/                # 源代码目录
+│   ├── arror-period_draw.py      # 误差周期图绘制
+│   ├── check_hdf5_structure.py   # HDF5文件结构检查
+│   ├── config_manager.py         # 配置管理模块
+│   ├── data_processing.py        # 数据处理主模块
+│   ├── data_processing_sigle.py  # 单文件数据处理
+│   ├── hdf5_manager.py           # HDF5数据管理
+│   ├── lightcurve_draw.py        # 光变曲线绘制
+│   ├── lightcurve_period.py      # 周期计算
+│   ├── lightcurve_period_draw.py # 周期图绘制
+│   ├── lightcurves_filtering.py  # 光变曲线降噪处理
+│   ├── logging_config.py         # 日志配置
+│   ├── test.py                   # 测试脚本
+│   ├── 天文文件提取.py           # 天文文件提取工具
+│   └── 读取_标签名_HDU.py        # HDU标签读取工具
+├── config/               # 配置文件目录
+│   └── app_config.json   # 应用配置文件
+└── data/                 # 数据文件目录
+    ├── HATP7b/          # HATP7b目标数据
+    │   ├── 1_tess2019198215352-s0014-0000000424865156-0150-s_lc/  # 观测数据1
+    │   ├── 2_tess2019226182529-s0015-0000000424865156-0151-s_lc/  # 观测数据2
+    │   ├── 3_tess2021175071901-s0040-0000000424865156-0211-s_lc/  # 观测数据3
+    │   ├── 4_tess2021204101404-s0041-0000000424865156-0212-s_lc/  # 观测数据4
+    │   ├── 5_tess2022190063128-s0054-0000000424865156-0227-s_lc/  # 观测数据5
+    │   ├── 6_tess2022217014003-s0055-0000000424865156-0242-s_lc/  # 观测数据6
+    │   ├── HATP7b.zip           # 压缩数据文件
+    │   └── shared_outputs/      # 共享输出目录
+    ├── analysis_log/     # 分析日志目录
+    │   ├── HATP7B_lightcurve_shuts/  # 光变曲线截图
+    │   └── period_analysis_report_20251102_034105.json  # 周期分析报告
+    └── hatp7b_data.h5    # HDF5格式数据文件
 ```
 
 ## 安装依赖
