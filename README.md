@@ -67,6 +67,7 @@ pip install -r requirements.txt
 ```
 
 ## 使用方法
+<<<<<<< HEAD
 
 ### 1. 配置设置
 编辑 `config/app_config.json` 文件，设置数据路径和处理参数。
@@ -93,6 +94,63 @@ noise_reduction()
 ```python
 from codes.arror_period_draw import main
 main()
+=======
+>本仓库的代码文件独立性极高，通过配置文件app_config.json配置数据处理文件的模型参数、指定数据源、输出位置等信息。能够实现在不改变代码的前提下快速进行多次分析
+
+### 1. 克隆仓库
+使用
+```git bash
+git clone https://github.com/Aoligei43211/lightcurves_analysis.git
+```
+来克隆仓库
+
+### 2. 数据预处理
+在源代码目录下运行数据预处理文件，将FITS文件的转换为HDF5格式保存：
+>时间排序，光亮矫正
+
+批处理文件;
+```bash
+python data_processing.py
+```
+
+处理单个文件
+```bash
+python data_processing_single.py
+```
+
+### 3. 降噪处理
+使用Gauss滤波进行进行降噪处理：
+
+```bash
+pyhton lightcurves_filtering.py
+```
+
+### 4. 周期分析
+>个人原创算法，采用差值方差的移动平均同时缩小窗函数来得出方差最小点的周期即为最佳周期。时间复杂度为
+
+$$
+O(max_iterations × K × N log N)
+$$
+
+K为周期数量，$K=(end-start)*precishion$
+
+```bash
+python lightcurve_period.py
+```
+
+### 图像绘制
+绘制差值方差——周期图：
+```bash
+python arror-period_draw.py
+```
+绘制光变曲线：`需在配置文件里选定文件路径`
+```bash
+python lightcurve_draw.py
+```
+绘制按最佳周期折叠后的光变曲线
+```bash
+python lightcurve_period_draw.py
+>>>>>>> 63fac7321422eceb867902afcb03f068a4ba8c8a
 ```
 
 ## 配置说明
@@ -118,4 +176,8 @@ main()
 
 ## 贡献
 
+<<<<<<< HEAD
 欢迎提交Issue和Pull Request来改进这个项目。
+=======
+欢迎提交Issue和Pull Request来改进这个项目。
+>>>>>>> 63fac7321422eceb867902afcb03f068a4ba8c8a
