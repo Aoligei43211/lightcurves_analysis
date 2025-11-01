@@ -1,0 +1,14 @@
+{
+  "generated_at": "2025-11-02T03:41:05.774371",
+  "duration_seconds": 3.96897,
+  "total_files": 1,
+  "successful_files": 1,
+  "failed_files": 0,
+  "results": {
+    "processed_combined": {
+      "best_period": 2.204735000000022,
+      "precision": 1.0000000000000002e-07,
+      "timestamp": "2025-11-02T03:41:05.774371"
+    }
+  }
+}
