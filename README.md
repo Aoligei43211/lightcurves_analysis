@@ -99,9 +99,11 @@ pyhton lightcurves_filtering.py
 
 ### 4. 周期分析
 >个人原创算法，采用差值方差的移动平均同时缩小窗函数来得出方差最小点的周期即为最佳周期。时间复杂度为
+
 $$
 O(max_iterations × K × N log N)
 $$
+
 K为周期数量，$K=(end-start)*precishion$
 
 ```bash
