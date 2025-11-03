@@ -120,7 +120,7 @@ def get_sorted_data():
     
     return time_sorted, flux_sorted
 
-#调整各个文件的flux值，使之大体持平
+#调整各个文件的flux值，使之大体持平，并应用3σ法则去除异常值
 def flux_correction(m):#使用形参来统一遍历对象
     store=[]#初始化存储各个文件的中位数的数组，
     for file_path in m:  # 遍历每个FITS文件
@@ -149,7 +149,23 @@ def flux_correction(m):#使用形参来统一遍历对象
 
             #核心调整步骤
             flux_fixed=flux-(store[i]-flux_median_global)
-            flux_fixed_all=np.concatenate([flux_fixed_all,flux_fixed])#将所有文件的flux_fixed拼接起来
+            
+            # 应用3σ法则去除异常值
+            mu = np.mean(flux_fixed)
+            sigma = np.std(flux_fixed)
+            lower_bound = mu - 3 * sigma
+            upper_bound = mu + 3 * sigma
+            outlier_mask = (flux_fixed >= lower_bound) & (flux_fixed <= upper_bound)
+            
+            # 过滤异常值
+            flux_fixed_filtered = flux_fixed[outlier_mask]
+            
+            # 记录去除的异常值数量
+            num_outliers = len(flux_fixed) - len(flux_fixed_filtered)
+            if num_outliers > 0:
+                print(f"从文件 {os.path.basename(file_path)} 中去除了 {num_outliers} 个异常值")
+            
+            flux_fixed_all=np.concatenate([flux_fixed_all, flux_fixed_filtered])#将所有文件的过滤后的flux_fixed拼接起来
                 
         except Exception as e:  # 捕获并处理可能发生的异常
             print(f"处理文件 {file_path} 时出错: {str(e)}")  # 打印错误信息
@@ -160,6 +176,13 @@ def flux_correction(m):#使用形参来统一遍历对象
             else:
                 # 如果store中没有对应索引的数据，使用flux_median_global
                 flux_fixed_all = np.concatenate([flux_fixed_all, flux - flux_median_global])
+    
+    # 验证数据分布合理性
+    if len(flux_fixed_all) > 0:
+        mu_final = np.mean(flux_fixed_all)
+        sigma_final = np.std(flux_fixed_all)
+        print(f"应用3σ法则后的数据统计：平均值={mu_final:.6f}, 标准差={sigma_final:.6f}, 数据点数量={len(flux_fixed_all)}")
+    
     return flux_fixed_all
 
 if __name__ == "__main__":

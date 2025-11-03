@@ -83,6 +83,30 @@ def main():
         time_data_sorted = time_data[sorted_indices]
         flux_data_sorted = flux_data[sorted_indices]
         
+        # 应用3σ法则去除异常值
+        mu = np.mean(flux_data_sorted)
+        sigma = np.std(flux_data_sorted)
+        lower_bound = mu - 3 * sigma
+        upper_bound = mu + 3 * sigma
+        outlier_mask = (flux_data_sorted >= lower_bound) & (flux_data_sorted <= upper_bound)
+        
+        # 过滤异常值
+        time_data_filtered = time_data_sorted[outlier_mask]
+        flux_data_filtered = flux_data_sorted[outlier_mask]
+        
+        # 记录去除的异常值数量和统计信息
+        num_outliers = len(flux_data_sorted) - len(flux_data_filtered)
+        if num_outliers > 0:
+            print(f"从文件中去除了 {num_outliers} 个异常值")
+            print(f"异常值阈值范围: [{lower_bound:.6f}, {upper_bound:.6f}]")
+        
+        # 验证数据分布合理性
+        print(f"应用3σ法则后的数据统计：平均值={np.mean(flux_data_filtered):.6f}, 标准差={np.std(flux_data_filtered):.6f}, 数据点数量={len(flux_data_filtered)}")
+        
+        # 更新排序后的数据为过滤后的数据
+        time_data_sorted = time_data_filtered
+        flux_data_sorted = flux_data_filtered
+        
         # 初始化HDF5管理器并存储数据
         try:
             # 初始化HDF5管理器
@@ -91,7 +115,7 @@ def main():
             # 创建子文件组结构
             hdf5_manager.create_file_structure(hdf5_target, file_name)
             
-            # 存储排序后的数据到HDF5文件
+            # 存储过滤并排序后的数据到HDF5文件
             hdf5_manager.store_preprocessed_data(hdf5_target, file_name, time_data_sorted, flux_data_sorted)
             
             print(f"数据已成功存储到HDF5文件，子文件组: {file_name}")
