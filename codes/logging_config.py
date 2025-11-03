@@ -38,13 +38,12 @@ class LoggingConfig:
         self.config_manager = config_manager
         
         # 从配置获取日志参数
-        self.log_level = self.config_manager.get('logging.level', 'INFO')
-        self.log_format = self.config_manager.get('logging.format', 
-                                         '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        self.date_format = self.config_manager.get('logging.date_format', '%Y-%m-%d %H:%M:%S')
-        self.log_dir = self.config_manager.get('logging.directory', 'logs')
-        self.max_file_size = self.config_manager.get('logging.max_file_size', 10 * 1024 * 1024)  # 10MB
-        self.backup_count = self.config_manager.get('logging.backup_count', 5)
+        self.log_level = self.config_manager.get('logging.level')
+        self.log_format = self.config_manager.get('logging.format')
+        self.date_format = self.config_manager.get('logging.date_format')
+        self.log_dir = self.config_manager.get('logging.directory')
+        self.max_file_size = self.config_manager.get('logging.max_file_size')
+        self.backup_count = self.config_manager.get('logging.backup_count')
         
         # 确保日志目录存在
         os.makedirs(self.log_dir, exist_ok=True)
@@ -130,7 +129,7 @@ class LoggingConfig:
         self.log_level = new_level.upper()
         
         # 更新配置管理器中的值
-        self.config.update_config({'logging': {'level': new_level.upper()}})
+        self.config_manager.set('logging.level', new_level.upper())
         
         # 更新所有现有记录器的级别
         for logger_name in logging.Logger.manager.loggerDict:

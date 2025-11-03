@@ -39,8 +39,8 @@ hdf5_manager = HDF5Manager(hdf5_path)
 
 # 获取目标名称和文件名
 # 从配置文件读取默认目标和文件
-TARGET_NAME = config_manager.get('data.hdf5_targets.default_target', 'HATP7b')
-FILE_NAME = config_manager.get('data.hdf5_targets.default_file', 'processed_combined')
+TARGET_NAME = config_manager.get('data.hdf5_targets.default_target')
+FILE_NAME = config_manager.get('data.hdf5_targets.default_file')
 
 # 从HDF5文件读取预处理数据
 print(f"从HDF5文件读取数据: {hdf5_path}")
@@ -91,7 +91,7 @@ def get_convolution_configs(config_manager):
     # 尝试从配置文件读取卷积核配置
     try:
         # 从配置文件读取默认卷积核配置
-        default_configs = config_manager.get('processing.noise_reduction.convolution_configs', [])
+        default_configs = config_manager.get('processing.noise_reduction.convolution_configs')
         convolution_configs = []
         
         # 检查配置是否有效
@@ -109,7 +109,7 @@ def get_convolution_configs(config_manager):
             for i, (window_size, sigma) in enumerate(convolution_configs):
                 print(f"  {i+1}. window_size={window_size}, sigma={sigma}")
             
-            # 询问用户是否使用这些配置
+            # 询问用户是否使用这些配置，如果使用
             use_config = input("\n是否使用这些配置？(y/n): ").strip().lower()
             if use_config == 'y':
                 return convolution_configs

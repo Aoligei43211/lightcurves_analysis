@@ -1,0 +1,37 @@
+{
+  "base_params": {
+    "duration": 100, 
+    "dt": 0.1,
+    "period": 10,
+    "transit_depth": 0.02,
+    "transit_duration": 1.0
+  },
+  "ttv_params": {
+    "enabled": true,
+    "amplitude": 0.1,
+    "frequency": 0.01
+  },
+  "tdv_params": {
+    "enabled": true,
+    "amplitude": 0.1,
+    "frequency": 0.05
+  },
+  "depth_variation_params": {
+    "enabled": true,
+    "frequencies": [0.1, 0.2, 0.5],
+    "amplitudes": [0.005, 0.002, 0.001],
+    "variation_type": "all"
+  },
+  "output": {
+    "file_path": "d:\\program\\Python\\projects\\astronomy\\Signal Simulation\\simulated_signals.h5",
+    "ttv_group": "ttv_only",
+    "tdv_group": "tdv_only",
+    "depth_group": "depth_variation",
+    "combined_group": "combined_noise"
+  },
+  "metadata": {
+    "description": "Signal Simulation Configuration",
+    "version": "1.0",
+    "author": "Astronomy Signal Simulation Tool"
+  }
+}

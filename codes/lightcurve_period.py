@@ -84,12 +84,12 @@ def period_culculator():
     # 从配置文件读取参数
     try:
         # 读取搜索范围参数
-        start = config_manager.get('processing.period.start', 2.0)
-        end = config_manager.get('processing.period.end', 3.0)
+        start = config_manager.get('processing.period.start')
+        end = config_manager.get('processing.period.end')
         
         # 读取迭代和精度参数
-        max_iterations = config_manager.get('processing.period.max_iterations', 5)
-        initial_precision = config_manager.get('processing.period.initial_precision', 2)
+        max_iterations = config_manager.get('processing.period.max_iterations')
+        initial_precision = config_manager.get('processing.period.initial_precision')
         
         # 参数验证
         if end <= start:
@@ -115,8 +115,8 @@ def period_culculator():
         hdf5_manager = HDF5Manager(hdf5_path)
         
         # 获取目标名称和文件名
-        target_name = config_manager.get('data.hdf5_targets.default_target', 'HATP7b')
-        file_name = config_manager.get('data.hdf5_targets.default_file', 'processed_combined')
+        target_name = config_manager.get('data.hdf5_targets.default_target')
+        file_name = config_manager.get('data.hdf5_targets.default_file')
         
         # 读取预处理数据
         time, flux = hdf5_manager.get_preprocessed_data(target_name, file_name)
