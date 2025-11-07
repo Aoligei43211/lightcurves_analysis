@@ -29,7 +29,7 @@ def main():
     config_manager = ConfigManager()
     
     # 从配置管理器获取HDF5文件路径和目标配置
-    hdf5_path = config_manager.get('data.hdf5_path')
+    hdf5_path = config_manager.get('data.hdf5_path')#找到hdf5文件
     hdf5_target = config_manager.get('data.hdf5_target')
     if hdf5_target is None:
         hdf5_target = 'processed_data'
@@ -38,7 +38,7 @@ def main():
     print(f"HDF5目标组: {hdf5_target}")
 
     # 获取排序后的时间和通量数据并存储到HDF5文件的函数
-    # 此函数会处理数据并提供交互式降噪选项，然后将数据存储到HDF5文件
+    # 此函数会处理数据并将数据存储到HDF5文件，降噪处理已移至lightcurves_filtering.py
     def get_sorted_data():
         """
         获取单个FITS文件中排序后的时间和通量数据并存储到HDF5文件。
@@ -49,7 +49,10 @@ def main():
         3. 读取文件数据
         4. 移除空值和NaN值
         5. 按时间排序
-        6. 存储到HDF5文件
+        6. 应用3σ法则去除异常值
+        7. 存储到HDF5文件
+        
+        注意：降噪处理已移至lightcurves_filtering.py单独处理
         """
         # 从配置获取单个FITS文件路径
         fits_file_path = config_manager.get('data.fits_files.single_file_path')
@@ -88,10 +91,10 @@ def main():
         sigma = np.std(flux_data_sorted)
         lower_bound = mu - 3 * sigma
         upper_bound = mu + 3 * sigma
-        outlier_mask = (flux_data_sorted >= lower_bound) & (flux_data_sorted <= upper_bound)
+        outlier_mask = (flux_data_sorted >= lower_bound) & (flux_data_sorted <= upper_bound)#通过逻辑运算符操作，得到一个布尔数组，值为True的索引表示对应位置的flux_data_sorted值在3σ范围内，值为False的索引表示对应位置的flux_data_sorted值在3σ范围外
         
         # 过滤异常值
-        time_data_filtered = time_data_sorted[outlier_mask]
+        time_data_filtered = time_data_sorted[outlier_mask]#对布尔数组outlier_mask进行索引，值为True的索引保留，False的索引过滤掉
         flux_data_filtered = flux_data_sorted[outlier_mask]
         
         # 记录去除的异常值数量和统计信息

@@ -1,0 +1,4 @@
+2025-11-01 23:45:22 - data_layer - WARNING - HDF5管理器未注册，使用默认路径: 'DIContainer' object has no attribute 'resolve'
+2025-11-01 23:45:22 - hdf5_manager - INFO - 初始化HDF5管理器，文件路径: D:\program\Python\projects\astronomy\data\hatp7b_data.h5
+2025-11-01 23:45:22 - data_layer - INFO - 数据提取器初始化完成
+2025-11-01 23:45:22 - visualization_app - INFO - 可视化应用初始化完成

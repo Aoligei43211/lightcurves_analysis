@@ -32,14 +32,14 @@ import logging
 # 导入typing模块中的类型注解
 from typing import Any, Dict, Optional
 
-
-class ConfigManager:
+# 配置管理器 - 实现单例模式的配置管理类，负责配置文件的读取、解析和访问
+class ConfigManager:#这个类需要传入的参数有：config_path: 配置文件路径，如果为None则使用默认路径
     """配置管理器 - 实现单例模式的配置管理类，负责配置文件的读取、解析和访问"""
     
     # 类变量，用于存储单例实例
     _instance = None
-    
-    def __new__(cls, config_path: Optional[str] = None):
+    #单例模式实现 - 确保类只有一个实例
+    def __new__(cls, config_path: Optional[str] = None):#cls表示类本身，config_path表示配置文件路径
         """单例模式实现 - 确保类只有一个实例
         
         参数:
@@ -56,8 +56,9 @@ class ConfigManager:
             cls._instance._initialized = False
         # 返回现有实例
         return cls._instance
-    
-    def __init__(self, config_path: Optional[str] = None):
+
+    # 初始化配置管理器 - 设置配置路径并加载配置（初始化方法）
+    def __init__(self, config_path: Optional[str] = None):#optional表示参数可选，默认值为None
         """初始化配置管理器 - 设置配置路径并加载配置
         
         参数:
@@ -71,12 +72,12 @@ class ConfigManager:
         # os.path.join: 连接多个路径组件
         # os.path.dirname: 获取父目录路径
         self.config_path = config_path or os.path.join(
-            os.path.dirname(os.path.dirname(__file__)),  # 获取上级目录的上级目录
+            os.path.dirname(os.path.dirname(__file__)),  # 获取当前文件所在目录的上级目录的上级目录，__file__表示当前文件的路径
             'config',  # 配置文件夹
             'app_config.json'  # 配置文件名
         )
         # 初始化配置字典
-        self._config: Dict[str, Any] = {}
+        self._config: Dict[str, Any] = {}# 存储配置项的字典，键为配置项名称，值为配置项值，这个存储的是配置文件中的配置项
         # 获取指定名称的日志记录器
         # logging.getLogger: 创建或获取指定名称的logger实例
         self.logger = logging.getLogger('config_manager')
@@ -84,8 +85,9 @@ class ConfigManager:
         self._load_config()
         # 标记初始化完成
         self._initialized = True
-    
-    def _load_config(self) -> None:
+
+    # 加载配置文件 - 从文件读取配置并解析为字典（私有方法），私有方法是指只能在类内部调用的方法，不能在类外部调用
+    def _load_config(self) -> None:#这行代码的作用是定义一个私有方法_load_config，用于加载配置文件，->的语法是用于指定方法的返回类型，这里是None表示该方法不返回任何值
         """加载配置文件 - 从文件读取配置并解析为字典"""
         try:
             # 检查配置文件是否存在
@@ -94,7 +96,7 @@ class ConfigManager:
                 # 打开并读取配置文件
                 # open: 打开文件，mode='r'表示只读，encoding='utf-8'指定编码
                 with open(self.config_path, 'r', encoding='utf-8') as f:
-                    # 解析JSON文件内容
+                    # 解析JSON文件内容，也就是config_path指向的文件
                     # json.load: 将JSON文件对象转换为Python对象
                     self._config = json.load(f)
                 # 记录日志
@@ -121,16 +123,14 @@ class ConfigManager:
         self._config = {
             "data": {
                 "base_path": os.path.join(root_dir, "data"),
-                "hatp7b_path": os.path.join(root_dir, "data", "HATP7b"),
-                "hdf5_path": os.path.join(root_dir, "data", "hatp7b_data.h5"),
+                "hatp7b_path": os.path.join(root_dir, "data", "HATP7b"),#语法：os.path.join(路径1, 路径2, ...)，用于连接多个路径组件，返回一个新的路径字符串，进而构成一个完整的路径
+                "hdf5_path": os.path.join(root_dir, "data", "hatp7b_data.h5"),#hatp7b_data.h5文件的路径，用于存储HATP7b数据集的HDF5文件
                 "shared_outputs": os.path.join(root_dir, "data", "HATP7b", "shared_outputs"),
-                "shell_file_path": os.path.join(root_dir, "codes", "kepler_lightcurves_Q00_short.sh"),
+                "shell_file_path": os.path.join(root_dir, "codes", "kepler_lightcurves_Q00_short.sh"),#这个是kepler_lightcurves_Q00_short.sh文件的路径，用于执行kepler_lightcurves_Q00_short.sh脚本，用于下载HATP7b数据集的lightcurve文件
                 "working_directory": os.path.join(root_dir, "data", "Kepler data", "lightcurves")
             },
             "processing": {
                 "gaussian_sigma": 2.0,
-                "normalization": True,
-                "noise_reduction": True,
                 "period_search_range": [0.1, 10.0]
             },
             "visualization": {

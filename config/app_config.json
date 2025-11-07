@@ -2,13 +2,13 @@
     "_comment": "天文数据分析系统配置文件 - 包含数据路径、处理参数、可视化和日志配置",
     "data": {
         "_comment": "数据路径配置 - 定义系统使用的各种数据文件路径",
-        "base_path": "D:\\program\\Python\\projects\\astronomy\\data",
+        "base_path": "./data",
+        
         "_note": "天文文件提取.py脚本的工作目录参数",
-        "hatp7b_path": "D:\\program\\Python\\projects\\astronomy\\data\\HATP7b",
-        "hdf5_path": "D:\\program\\Python\\projects\\astronomy\\data\\hatp7b_data.h5",
-        "shared_outputs": "D:\\program\\Python\\projects\\astronomy\\data\\HATP7b\\shared_outputs",
-        "shell_file_path": "D:\\program\\Python\\projects\\astronomy\\codes\\kepler_lightcurves_Q00_short.sh",
-        "working_directory": "D:\\program\\Python\\projects\\astronomy\\data\\Kepler data\\lightcurves",
+        "hatp7b_path": "./data/HATP7b",
+        "hdf5_path": "./data/hatp7b_data.h5",
+        "shared_outputs": "./data/HATP7b/shared_outputs",
+        "shell_file_path": "./codes/kepler_lightcurves_Q00_short.sh",
         "hdf5_groups": {
             "preprocessed": "preprocessed_data",
             "_note": "hdf5_manager存储函数的属性组名参数",
@@ -29,9 +29,9 @@
         },
         "fits_files": {
             "_note": "FITS文件路径配置，用于data_processing_sigle.py模块",
-            "fits_directory": "D:\\program\\Python\\projects\\astronomy\\data\\HATP7b",
+            "fits_directory": "./data/HATP7b",
             "fits_pattern": "*_lc.fits",
-            "single_file_path": "D:\\program\\Python\\projects\\astronomy\\data\\HATP7b\\1_tess2019198215352-s0014-0000000424865156-0150-s_lc\\1_tess2019198215352-s0014-0000000424865156-0150-s_lc.fits",
+            "single_file_path": "./data/HATP7b/1_tess2019198215352-s0014-0000000424865156-0150-s_lc/1_tess2019198215352-s0014-0000000424865156-0150-s_lc.fits",
             "_note_single_file": "单个FITS文件路径，用于data_processing_sigle.py的单文件处理"
         }
     },
@@ -39,10 +39,9 @@
         "_comment": "数据处理参数配置 - 定义数据清洗、降噪和周期搜索的参数",
         "gaussian_sigma": 2.0,
         "_note": "lightcurve_period.py周期分析函数的参数配置",
-        "normalization": true,
         "noise_reduction": {
             "_comment": "降噪参数配置",
-            "gaussian_sigma": 2.0,
+                "gaussian_sigma": 2.0,
             "convolution_configs": [
                 {
                     "window_size": 5,
@@ -93,6 +92,6 @@
         "level": "INFO",
         "_note": "logging_config.py的日志文件路径参数",
         "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        "file": "D:\\program\\Python\\projects\\astronomy\\logs\\app.log"
+        "file": "./logs/app.log"
     }
 }

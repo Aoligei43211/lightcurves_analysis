@@ -73,7 +73,7 @@ def noise_reduction(flux, window_size, sigma):
     # 创建高斯卷积核
     x = np.arange(window_size) - window_size // 2  # 生成从-(window_size//2)到(window_size//2)的数组
     gaussian_kernel = np.exp(-x**2 / (2 * sigma**2))
-    gaussian_kernel = gaussian_kernel / np.sum(gaussian_kernel)  # 归一化
+    gaussian_kernel = gaussian_kernel / np.sum(gaussian_kernel)  # 归一化卷积核
     
     # 使用高斯卷积进行平滑处理
     return np.convolve(flux, gaussian_kernel, mode='same')

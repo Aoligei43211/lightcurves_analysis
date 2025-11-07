@@ -30,7 +30,7 @@ astronomy/
 │   ├── check_hdf5_structure.py   # HDF5文件结构检查
 │   ├── config_manager.py         # 配置管理模块
 │   ├── data_processing.py        # 数据处理主模块
-│   ├── data_processing_sigle.py  # 单文件数据处理
+│   ├── data_processing_single.py  # 单文件数据处理
 │   ├── hdf5_manager.py           # HDF5数据管理
 │   ├── lightcurve_draw.py        # 光变曲线绘制
 │   ├── lightcurve_period.py      # 周期计算
@@ -67,35 +67,7 @@ pip install -r requirements.txt
 ```
 
 ## 使用方法
-<<<<<<< HEAD
-
-### 1. 配置设置
-编辑 `config/app_config.json` 文件，设置数据路径和处理参数。
-
-### 2. 数据预处理
-运行数据预处理脚本，将FITS文件转换为HDF5格式：
-
-```python
-from codes.data_processing import preprocess_data
-preprocess_data()
-```
-
-### 3. 降噪处理
-使用多卷积核进行降噪处理：
-
-```python
-from codes.lightcurves_filtering import noise_reduction
-noise_reduction()
-```
-
-### 4. 周期分析
-绘制光变曲线的周期图：
-
-```python
-from codes.arror_period_draw import main
-main()
-=======
->本仓库的代码文件独立性极高，通过配置文件app_config.json配置数据处理文件的模型参数、指定数据源、输出位置等信息。能够实现在不改变代码的前提下快速进行多次分析
+>本仓库的代码文件独立性极高，通过配置文件app_config.json配置数据处理文件的模型参数、指定数据源、输出位置等信息。能够实现在不改变代码的前提下快速进行多次简单分析
 
 ### 1. 克隆仓库
 使用
@@ -122,16 +94,14 @@ python data_processing_single.py
 使用Gauss滤波进行进行降噪处理：
 
 ```bash
-pyhton lightcurves_filtering.py
+python lightcurves_filtering.py
 ```
 
 ### 4. 周期分析
 >个人原创算法，采用差值方差的移动平均同时缩小窗函数来得出方差最小点的周期即为最佳周期。时间复杂度为
-
 $$
 O(max_iterations × K × N log N)
 $$
-
 K为周期数量，$K=(end-start)*precishion$
 
 ```bash
@@ -150,7 +120,6 @@ python lightcurve_draw.py
 绘制按最佳周期折叠后的光变曲线
 ```bash
 python lightcurve_period_draw.py
->>>>>>> 63fac7321422eceb867902afcb03f068a4ba8c8a
 ```
 
 ## 配置说明
@@ -176,8 +145,4 @@ python lightcurve_period_draw.py
 
 ## 贡献
 
-<<<<<<< HEAD
 欢迎提交Issue和Pull Request来改进这个项目。
-=======
-欢迎提交Issue和Pull Request来改进这个项目。
->>>>>>> 63fac7321422eceb867902afcb03f068a4ba8c8a

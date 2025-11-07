@@ -84,8 +84,8 @@ try:
     
     # 从HDF5文件读取数据
     # 首先尝试读取处理后的数据
+    # 读取处理后的光通量数据（第二个参数为属性数据，可忽略）
     denoised_flux, _ = hdf5_manager.get_processed_data(target_name, file_name)
-    
     # 如果没有处理后的数据，尝试读取预处理数据
     if denoised_flux is None:
         print("未找到处理后的数据，尝试读取预处理数据...")
